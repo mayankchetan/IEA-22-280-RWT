@@ -96,8 +96,12 @@ begin new_htc_structure;
       sec 1 0.0 0.0 0.0 0.0;
       sec 2 0.0 0.0 -4.1425407062805295 0.0;
     end c2_def;
-    concentrated_mass 1 0.0 0.0 0.0 28740.99049474962 0.0 0.0 0.0;
-    concentrated_mass 1 0.1665313908538482 -5.84704276641288 -4.2647901842947595 821009.0477187126 11242533.974662142 14539734.272247598 14648892.347010525 799429.7807778214 2997469.283520137 -290639.9124403294;
+    concentrated_mass   1   0.000000   0.000000   0.000000 2.863391998e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; yaw
+    concentrated_mass   1   0.000000   0.000000   0.000000 4.147200000e+04 4.976695296e+05 4.976695296e+05 9.953280000e+05 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; platform
+    concentrated_mass   1   0.000000  -1.239342  -2.513999 7.510618535e+04 1.069822573e+06 8.796501117e+05 6.171898148e+05 0.000000000e+00 0.000000000e+00 2.977693452e+05 ; bedplate
+    concentrated_mass   1   0.000000  -0.231454  -5.379000 1.748279022e+04 9.225076225e+02 1.252700195e+03 9.225076225e+02 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; cover
+    concentrated_mass   1  -5.130000   0.000000  -2.130000 4.404000000e+04 1.332033840e+05 1.332033840e+05 1.332033840e+05 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; transformer
+    concentrated_mass   1   5.130000   0.000000  -2.130000 1.743510000e+04 5.273420346e+04 5.273420346e+04 5.273420346e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; converter
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
@@ -119,6 +123,9 @@ begin new_htc_structure;
       sec 1 0.0 0.0 0.0 0.0;
       sec 2 0.0 0.0 7.9472357891861645 0.0;
     end c2_def;
+	concentrated_mass   1   0.000000   0.000000   6.349517 6.042166704e+03 9.007612297e+03 9.007612297e+03 6.443139992e+03 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; nose
+    concentrated_mass   1   0.000000   0.000000   7.437288 1.267397016e+04 8.523597429e+04 8.523597429e+04 1.704719486e+05 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; hvac
+    concentrated_mass   1   0.000000   0.000000   7.437288 2.540200000e+05 1.715069141e+06 1.715069141e+06 3.037075821e+06 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; generator stator
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
@@ -135,12 +142,17 @@ begin new_htc_structure;
       filename ./data/IEA-22MW_shaft_st.dat;
       set 1 1;
     end timoschenko_input;
-    begin c2_def; 
+    begin c2_def;
       nsec 2;
       sec 1 0.0 0.0 0.0 0.0;
       sec 2 0.0 0.0 6.129880124703066 0.0;
     end c2_def;
-    concentrated_mass 2 0.0 0.0 0.0 120447.70224890654 1198002.42618154 1198002.42618154 1882498.8832803261;
+    concentrated_mass   1   0.000000  -0.000000  -0.509948 2.540200000e+05 1.715069141e+06 1.715069141e+06 3.037075821e+06 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; generator rotor
+    concentrated_mass   1   0.000000  -0.000000   0.097225 4.261180279e+04 2.502378119e+04 2.502378119e+04 4.882034245e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; mb1
+    concentrated_mass   1   0.000000   0.000000  -0.774234 1.244305719e+04 2.502378119e+04 2.502378119e+04 4.882034245e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; mb2
+    concentrated_mass   1   0.000000  -0.000000   0.577823 4.107951080e+03 7.374605198e+03 7.374605198e+03 9.742827575e+03 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; lss
+    concentrated_mass   1   0.000000  -0.000000   1.013552 3.905234288e+04 1.968628605e+04 1.968628605e+04 3.937257209e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; brake
+    concentrated_mass   1   0.000000   0.000000   5.472493 1.068044659e+05 1.077367939e+06 1.077367939e+06 1.642426057e+06 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; hub system
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
@@ -454,24 +466,24 @@ begin aero;
   3d_correct_method 1;
 end aero;
 ;
-;begin hydro; 
-;  begin water_properties; 
-;    rho 1027; kg/m^3
-;    gravity 9.81; m/s^2
-;    mwl 0.0;
-;    mudlevel 34.0;
+begin hydro; 
+  begin water_properties; 
+    rho 1027; kg/m^3
+    gravity 9.81; m/s^2
+    mwl 0.0;
+    mudlevel 34.0;
 ;    wave_direction [wave_dir];
 ;    [jonswap] water_kinematics_dll ./wkin_dll.dll ./htc_hydro/ireg_airy_jonswap_s[w_seed].inp;
 ;    [pm] water_kinematics_dll ./wkin_dll.dll ./htc_hydro/ireg_airy_pm_s[w_seed].inp;
-;  end water_properties;
-;  begin hydro_element; 
-;    mbdy_name monopile;
-;    hydrosections uniform 50; distribution of hydro calculation points from sec 1 to nsec
-;    nsec 2;
-;    sec 0.0 1.0 1.0 78.5398 78.5398 10.0;  nr z Cm Cd V Vr width                 (z=afstand fra node 1 til sec)
-;    sec 34.0 1.0 1.0 78.5398 78.5398 10.0;
-;  end hydro_element;
-;end hydro;
+  end water_properties;
+  begin hydro_element; 
+    mbdy_name monopile;
+    hydrosections uniform 50; distribution of hydro calculation points from sec 1 to nsec
+    nsec 2;
+    sec 0.0 1.0 1.0 78.5398 78.5398 10.0;  nr z Cm Cd V Vr width                 (z=afstand fra node 1 til sec)
+    sec 34.0 1.0 1.0 78.5398 78.5398 10.0;
+  end hydro_element;
+end hydro;
 ;
 begin dll;
   begin type2_dll;   dtu basic controller
@@ -703,7 +715,7 @@ end dll;
 begin output; 
   filename ./res/iea_22mw_rwt_steps;
   data_format hawc_binary;
-  buffer 60000;
+  buffer 120000;
   time 100.0 1200.0;
   general time;
   ;
@@ -712,7 +724,7 @@ begin output;
   constraint bearing2 pitch2 5;    angle and angular velocity
   constraint bearing2 pitch3 5;    angle and angular velocity
   ;
-    wind free_wind 1 0.0 0.0 -170.0;
+  wind free_wind 1 0.0 0.0 -170.0;
   ;
   aero omega;
   aero torque;
