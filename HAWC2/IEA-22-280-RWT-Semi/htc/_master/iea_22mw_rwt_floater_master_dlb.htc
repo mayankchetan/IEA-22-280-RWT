@@ -76,8 +76,8 @@ begin new_htc_structure;
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
-      sec 0.0	12.0; z, diameter
-      sec 40.0	12.0;
+      sec 0.0	12.5; z, diameter
+      sec 40.0	12.5;
     end visualization_profile;
   end main_body ;
   begin main_body;
@@ -99,8 +99,8 @@ begin new_htc_structure;
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
-      sec 0.0	12.0; z, diameter
-      sec 40.0	12.0;
+      sec 0.0	12.5; z, diameter
+      sec 40.0	12.5;
     end visualization_profile;
   end main_body ;
   begin main_body;
@@ -122,8 +122,8 @@ begin new_htc_structure;
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
-      sec 0.0	12.0; z, diameter
-      sec 40.0	12.0;
+      sec 0.0	12.5; z, diameter
+      sec 40.0	12.5;
     end visualization_profile;
   end main_body ;
   begin main_body;
@@ -192,72 +192,6 @@ begin new_htc_structure;
       sec 65.0	10.0;
     end visualization_profile;
   end main_body ;
-  begin main_body;
-    name        hcu_01 ;
-    type        timoschenko ;
-    nbodies       1 ;
-    node_distribution c2_def ;
-	damping_posdef 0.0 0.0 0.0 0.0 0.0 0.0 ;
-    begin  timoschenko_input ;
-      filename data/IEA-22MW_dummy_st.dat;
-      set  1 1 ;
-    end  timoschenko_input ;
-    begin  c2_def ;
-      nsec 2 ;
-      sec  1  0.0e+00  0.0e+00 0.0e+00  0.0e+00 ;
-      sec  2  0.0e+00  0.0e+00 65.0e+00  0.0e+00 ;
-    end  c2_def ;
-	begin visualization_profile;
-      type cylinder;
-      nsec 2; nr of visualization sections
-      sec 0.0	0.91; z, diameter
-      sec 65.0	0.91;
-    end visualization_profile;
-  end main_body ;
-  begin main_body;
-    name        hcu_02 ;
-    type        timoschenko ;
-    nbodies       1 ;
-    node_distribution c2_def ;
-	damping_posdef 0.0 0.0 0.0 0.0 0.0 0.0 ;
-    begin  timoschenko_input ;
-      filename data/IEA-22MW_dummy_st.dat;
-      set  1 1 ;
-    end  timoschenko_input ;
-    begin  c2_def ;
-      nsec 2 ;
-      sec  1  0.0e+00  0.0e+00 0.0e+00  0.0e+00 ;
-      sec  2  0.0e+00  0.0e+00 65.0e+00  0.0e+00 ;
-    end  c2_def ;
-	begin visualization_profile;
-      type cylinder;
-      nsec 2; nr of visualization sections
-      sec 0.0	0.91; z, diameter
-      sec 65.0	0.91;
-    end visualization_profile;
-  end main_body ;
-  begin main_body;
-    name        hcu_03 ;
-    type        timoschenko ;
-    nbodies       1 ;
-    node_distribution c2_def ;
-	damping_posdef 0.0 0.0 0.0 0.0 0.0 0.0 ;
-    begin  timoschenko_input ;
-      filename data/IEA-22MW_dummy_st.dat;
-      set  1 1 ;
-    end  timoschenko_input ;
-    begin  c2_def ;
-      nsec 2 ;
-      sec  1  0.0e+00  0.0e+00 0.0e+00  0.0e+00 ;
-      sec  2  0.0e+00  0.0e+00 65.0e+00  0.0e+00 ;
-    end  c2_def ;
-	begin visualization_profile;
-      type cylinder;
-      nsec 2; nr of visualization sections
-      sec 0.0	0.91; z, diameter
-      sec 65.0	0.91;
-    end visualization_profile;
-  end main_body ;  
   begin main_body; 
     name tower;
     type timoschenko;
@@ -317,8 +251,12 @@ begin new_htc_structure;
       sec 1 0.0 0.0 0.0 0.0;
       sec 2 0.0 0.0 -4.1425407062805295 0.0;
     end c2_def;
-    concentrated_mass 1 0.0 0.0 0.0 28740.99049474962 0.0 0.0 0.0;
-    concentrated_mass 1 0.1665313908538482 -5.84704276641288 -4.2647901842947595 821009.0477187126 11242533.974662142 14539734.272247598 14648892.347010525 799429.7807778214 2997469.283520137 -290639.9124403294;
+    concentrated_mass   1   0.000000   0.000000   0.000000 2.863391998e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; yaw
+    concentrated_mass   1   0.000000   0.000000   0.000000 4.147200000e+04 4.976695296e+05 4.976695296e+05 9.953280000e+05 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; platform
+    concentrated_mass   1   0.000000  -1.239342  -2.513999 7.510618535e+04 1.069822573e+06 8.796501117e+05 6.171898148e+05 0.000000000e+00 0.000000000e+00 2.977693452e+05 ; bedplate
+    concentrated_mass   1   0.000000  -0.231454  -5.379000 1.748279022e+04 9.225076225e+02 1.252700195e+03 9.225076225e+02 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; cover
+    concentrated_mass   1  -5.130000   0.000000  -2.130000 4.404000000e+04 1.332033840e+05 1.332033840e+05 1.332033840e+05 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; transformer
+    concentrated_mass   1   5.130000   0.000000  -2.130000 1.743510000e+04 5.273420346e+04 5.273420346e+04 5.273420346e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; converter
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
@@ -340,6 +278,9 @@ begin new_htc_structure;
       sec 1 0.0 0.0 0.0 0.0;
       sec 2 0.0 0.0 7.9472357891861645 0.0;
     end c2_def;
+	concentrated_mass   1   0.000000   0.000000   6.349517 6.042166704e+03 9.007612297e+03 9.007612297e+03 6.443139992e+03 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; nose
+    concentrated_mass   1   0.000000   0.000000   7.437288 1.267397016e+04 8.523597429e+04 8.523597429e+04 1.704719486e+05 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; hvac
+    concentrated_mass   1   0.000000   0.000000   7.437288 2.540200000e+05 1.715069141e+06 1.715069141e+06 3.037075821e+06 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; generator stator
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
@@ -356,12 +297,17 @@ begin new_htc_structure;
       filename ./data/IEA-22MW_shaft_st.dat;
       set 1 1;
     end timoschenko_input;
-    begin c2_def; 
+    begin c2_def;
       nsec 2;
       sec 1 0.0 0.0 0.0 0.0;
       sec 2 0.0 0.0 6.129880124703066 0.0;
     end c2_def;
-    concentrated_mass 2 0.0 0.0 0.0 120447.70224890654 1198002.42618154 1198002.42618154 1882498.8832803261;
+    concentrated_mass   1   0.000000  -0.000000  -0.509948 2.540200000e+05 1.715069141e+06 1.715069141e+06 3.037075821e+06 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; generator rotor
+    concentrated_mass   1   0.000000  -0.000000   0.097225 4.261180279e+04 2.502378119e+04 2.502378119e+04 4.882034245e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; mb1
+    concentrated_mass   1   0.000000   0.000000  -0.774234 1.244305719e+04 2.502378119e+04 2.502378119e+04 4.882034245e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; mb2
+    concentrated_mass   1   0.000000  -0.000000   0.577823 4.107951080e+03 7.374605198e+03 7.374605198e+03 9.742827575e+03 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; lss
+    concentrated_mass   1   0.000000  -0.000000   1.013552 3.905234288e+04 1.968628605e+04 1.968628605e+04 3.937257209e+04 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; brake
+    concentrated_mass   1   0.000000   0.000000   5.472493 1.068044659e+05 1.077367939e+06 1.077367939e+06 1.642426057e+06 0.000000000e+00 0.000000000e+00 0.000000000e+00 ; hub system
 	begin visualization_profile;
       type cylinder;
       nsec 2; nr of visualization sections
@@ -388,7 +334,7 @@ begin new_htc_structure;
       nsec 2; nr of visualization sections
       sec 0.00000	5.8; z, diameter
       sec 4.20000	5.8;
-    end visualization_profile;	
+    end visualization_profile;
   end main_body;
   begin main_body; 
     name hub2;
@@ -470,13 +416,13 @@ begin new_htc_structure;
     data    time_step 0.01 ;
     data    GRAVITY 9.81 ;
     data    DENSITY 1025.0 ;
-    data    MASS    21184952.4420762 ;
-    data    COG     0.0 0.0 -15.249336035816686 ;
+    data    MASS    2.1166e+07 ;
+    data    COG     0.0 0.0 -15.2 ;
     data    BUOY    2.4864e+08 ;
     data    COB_XY  0.0 0.0 ;
-    data    RIJ_COG 1 1 32.9756 ;
-    data    RIJ_COG 2 2 32.9830 ;
-    data    RIJ_COG 3 3 45.2006 ;
+    data    RIJ_COG 1 1 32.9644 ;
+    data    RIJ_COG 2 2 32.9644 ;
+    data    RIJ_COG 3 3 45.1775 ;
     data    INI_POS 0.0 0.0 0.0 ;
     data    INIT_ROT 0.0 0.0 180.0 ;
     data    IRF_TIME_SPAN 60.0 ;
@@ -590,23 +536,6 @@ end ext_sys ;
       mbdy_eulerang  90.0  0.0  0.0  ;
       mbdy_eulerang  0.0  -120.0  0.0  ;	  
     end base ;
-    begin base;
-	  mbdy hcu_01 ;
-	  inipos 0.0 0.0 -15 ;
-      mbdy_eulerang  90.0  0.0  0.0  ;
-    end base ;
-    begin base;
-	  mbdy hcu_02 ;
-	  inipos 0.0 0.0 -15 ;
-      mbdy_eulerang  90.0  0.0  0.0  ;
-      mbdy_eulerang  0.0  120.0  0.0  ;	  
-    end base ;
-    begin base;
-	  mbdy hcu_03 ;
-	  inipos 0.0 0.0 -15 ;
-      mbdy_eulerang  90.0  0.0  0.0  ;
-      mbdy_eulerang  0.0  -120.0  0.0  ;	  
-    end base ;	
     begin  relative  ; 
       mbdy1  ifb  1  ; 
       mbdy2  tower  1  ; 
@@ -682,19 +611,7 @@ end ext_sys ;
       body1  ifb  last  ; 
       body2  vc_00  1  ; 
     end  fix1  ;
-    begin  fix1  ; 
-      body1  ifb  last  ; 
-      body2  hcu_01  1  ; 
-    end  fix1  ;
-    begin  fix1  ; 
-      body1  ifb  last  ; 
-      body2  hcu_02  1  ; 
-    end  fix1  ;
-    begin  fix1  ; 
-      body1  ifb  last  ; 
-      body2  hcu_03  1  ; 
-    end  fix1  ;
-    begin  fix1  ; 
+    begin  fix1  ;
       body1  vc_00  2  ; 
       body2  hcl_01  1  ; 
     end  fix1  ;
@@ -706,19 +623,7 @@ end ext_sys ;
       body1  vc_00  2  ; 
       body2  hcl_03  1  ; 
     end  fix1  ;
-    begin  fix1  ; 
-      body1  hcu_01  last  ; 
-      body2  vc_01  1  ; 
-    end  fix1  ;
-    begin  fix1  ; 
-      body1  hcu_02  last  ; 
-      body2  vc_02  1  ; 
-    end  fix1  ;
-    begin  fix1  ; 
-      body1  hcu_03  last  ; 
-      body2  vc_03  1  ; 
-    end  fix1  ;
-    begin  fix1  ; 
+    begin  fix1  ;
       body1  hcl_01  last  ; 
       body2  vc_01  2  ; 
     end  fix1  ;
@@ -800,7 +705,7 @@ begin dll ;
 end dll ;
 begin dll ;    
   dll 'ESYSMooring_64.dll' ; 
-  ID   0.0 -65.0000 18.1440 0.01 ; ; set to 100.0 s for initialization
+  ID   0.0 -65.0000 18.1440 1.0 ; ; set to 100.0 s for initialization
   init    cstrbarsfixedtobodyrelative_init ;
   update  cstrbarsfixedtobodyrelative_update ;
   neq     3 ;
@@ -820,7 +725,7 @@ begin dll ;
 end dll ;
 begin dll ;    
   dll 'ESYSMooring_64.dll' ; 
-  ID   56.2917 32.5000 18.1440 0.01 ; ; set to 100.0 s for initialization
+  ID   56.2917 32.5000 18.1440 1.0 ; ; set to 100.0 s for initialization
   init    cstrbarsfixedtobodyrelative_init ;
   update  cstrbarsfixedtobodyrelative_update ;
   neq     3 ;
@@ -841,7 +746,7 @@ begin dll ;
 end dll ;
 begin dll ;    
   dll 'ESYSMooring_64.dll' ; 
-  ID   -56.2917 32.5000 18.1440 0.01 ; ; set to 100.0 s for initialization
+  ID   -56.2917 32.5000 18.1440 1.0 ; ; set to 100.0 s for initialization
   init    cstrbarsfixedtobodyrelative_init ;
   update  cstrbarsfixedtobodyrelative_update ;
   neq     3 ;
@@ -952,78 +857,54 @@ end aero;
 [hydro]    sec 0.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
 [hydro]    sec 25.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
 [hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name vc_01;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
-[hydro]    sec 40.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name vc_02;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
-[hydro]    sec 40.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name vc_03;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
-[hydro]    sec 40.0 -1.0 1.0 113.0973 113.0973 12.0 0.0 4.0 0.0 0.0 113.0973 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name hcl_01;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 4.0 0.0 0.0 78.5398 ;
-[hydro]    sec 65.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 4.0 0.0 0.0 78.5398 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name hcl_02;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 4.0 0.0 0.0 78.5398 ;
-[hydro]    sec 65.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 4.0 0.0 0.0 78.5398 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name hcl_03;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 4.0 0.0 0.0 78.5398 ;
-[hydro]    sec 65.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 4.0 0.0 0.0 78.5398 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name hcu_01;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 0.6504 0.6504 0.91 0.0 4.0 0.0 0.0 0.6504 ;
-[hydro]    sec 65.0 -1.0 1.0 0.6504 0.6504 0.91 0.0 4.0 0.0 0.0 0.6504 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name hcu_02;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 0.6504 0.6504 0.91 0.0 4.0 0.0 0.0 0.6504 ;
-[hydro]    sec 65.0 -1.0 1.0 0.6504 0.6504 0.91 0.0 4.0 0.0 0.0 0.6504 ;
-[hydro]  end hydro_element;
-[hydro]  begin hydro_element;
-[hydro]    mbdy_name hcu_03;
-[hydro]    buoyancy 0;
-[hydro]    hydrosections uniform 10;
-[hydro]    nsec 2 ;
-[hydro]    sec 0.0 -1.0 1.0 0.6504 0.6504 0.91 0.0 4.0 0.0 0.0 0.6504 ;
-[hydro]    sec 65.0 -1.0 1.0 0.6504 0.6504 0.91 0.0 4.0 0.0 0.0 0.6504 ;
-[hydro]  end hydro_element;
+[hydro]   begin hydro_element;
+[hydro]     mbdy_name vc_01;
+[hydro]     buoyancy 0;
+[hydro]     hydrosections uniform 10;
+[hydro]     nsec 2 ;
+[hydro]     sec 0.0 -1.0 1.0 122.7185 122.7185 12.5 0.0 4.0 0.0 0.0 122.7185 ;
+[hydro]     sec 40.0 -1.0 1.0 122.7185 122.7185 12.5 0.0 4.0 0.0 0.0 122.7185 ;
+[hydro]   end hydro_element;
+[hydro]   begin hydro_element;
+[hydro]     mbdy_name vc_02;
+[hydro]     buoyancy 0;
+[hydro]     hydrosections uniform 10;
+[hydro]     nsec 2 ;
+[hydro]     sec 0.0 -1.0 1.0 122.7185 122.7185 12.5 0.0 4.0 0.0 0.0 122.7185 ;
+[hydro]     sec 40.0 -1.0 1.0 122.7185 122.7185 12.5 0.0 4.0 0.0 0.0 122.7185 ;
+[hydro]   end hydro_element;
+[hydro]   begin hydro_element;
+[hydro]     mbdy_name vc_03;
+[hydro]     buoyancy 0;
+[hydro]     hydrosections uniform 10;
+[hydro]     nsec 2 ;
+[hydro]     sec 0.0 -1.0 1.0 122.7185 122.7185 12.5 0.0 4.0 0.0 0.0 122.7185 ;
+[hydro]     sec 40.0 -1.0 1.0 122.7185 122.7185 12.5 0.0 4.0 0.0 0.0 122.7185 ;
+[hydro]   end hydro_element;
+[hydro]   begin hydro_element;
+[hydro]     mbdy_name hcl_01;
+[hydro]     buoyancy 0;
+[hydro]     hydrosections uniform 10;
+[hydro]     nsec 2 ;
+[hydro]     sec 0.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 0.0 0.0 0.0 78.5398 ;
+[hydro]     sec 65.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 0.0 0.0 0.0 78.5398 ;
+[hydro]   end hydro_element;
+[hydro]   begin hydro_element;
+[hydro]     mbdy_name hcl_02;
+[hydro]     buoyancy 0;
+[hydro]     hydrosections uniform 10;
+[hydro]     nsec 2 ;
+[hydro]     sec 0.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 0.0 0.0 0.0 78.5398 ;
+[hydro]     sec 65.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 0.0 0.0 0.0 78.5398 ;
+[hydro]   end hydro_element;
+[hydro]   begin hydro_element;
+[hydro]     mbdy_name hcl_03;
+[hydro]     buoyancy 0;
+[hydro]     hydrosections uniform 10;
+[hydro]     nsec 2 ;
+[hydro]     sec 0.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 0.0 0.0 0.0 78.5398 ;
+[hydro]     sec 65.0 -1.0 1.0 78.5398 78.5398 10.0 0.0 0.0 0.0 0.0 78.5398 ;
+[hydro]   end hydro_element;
 [hydro]end hydro;
 ;
 begin dll;
@@ -1280,7 +1161,7 @@ end dll;
 begin output; 
   filename ./res/[Case folder]/[Case id.];
   data_format [out_format];
-  buffer 60000;
+  buffer 120000;
   time [t0] [time stop];
   general time;
   ;
@@ -3428,7 +3309,7 @@ begin output;
   esys line2 ;
   esys line3 ;
   hydro water_vel_acc 0.0 0.0 10.0 ;
-  ;  
+  ;
 end output;
 ;
 exit ;
