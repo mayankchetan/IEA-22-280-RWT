@@ -2,7 +2,7 @@
 ;
 begin simulation; 
   time_stop [time stop];
-  solvertype 2;    (newmark)
+  solvertype 2;    (sparse newmark)
   on_no_convergence continue;
   convergence_limits 1000.0 1.0 1e-07;
   logfile ./logfiles/[Case folder]/[Case id.].log;
