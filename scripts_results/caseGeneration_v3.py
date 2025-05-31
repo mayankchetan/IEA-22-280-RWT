@@ -7,7 +7,7 @@ import multiprocessing
 
 from utils import *
 
-sys.path.append('/Users/mchetan/Desktop/nrel/projects/a_IEAWindTasks/task47Turbinia/welib/welib/fast')
+sys.path.append('../../welib/welib/fast')
 from olaf import OLAFParams
 
 
