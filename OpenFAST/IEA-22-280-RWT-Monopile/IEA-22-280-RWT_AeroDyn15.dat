@@ -42,7 +42,7 @@ default                SectAvgPsiFwd - Forward azimuth relative to blade where t
 0                      DBEMT_Mod   - Type of dynamic BEMT (DBEMT) model {0=No Dynamic Wake, -1=Frozen Wake for linearization, 1:constant tau1, 2=time-dependent tau1, 3=constant tau1 with continuous formulation} (-)
 34.079999999999984     tau1_const  - Time constant for DBEMT (s) [used only when Wake_Mod=2 and DBEMT_Mod=1]
 ======  OLAF -- cOnvecting LAgrangian Filaments (Free Vortex Wake) Theory Options  ================== [used only when Wake_Mod=3]
-IEA-22-280-RWT_OLAF.dat OLAFInputFileName - Input file for OLAF [used only when Wake_Mod=3]
+../IEA-22-280-RWT/IEA-22-280-RWT_OLAF.dat OLAFInputFileName - Input file for OLAF [used only when Wake_Mod=3]
 ======  Unsteady Airfoil Aerodynamics Options  ====================================================
 True                   AoA34       - Sample the angle of attack (AoA) at the 3/4 chord or the AC point {default=True} [always used]
 4                      UA_Mod      - Unsteady Aero Model Switch (switch) {0=Quasi-steady (no UA), 2=B-L Gonzalez, 3=B-L Minnema/Pierce, 4=B-L HGM 4-states, 5=B-L HGM+vortex 5 states, 6=Oye, 7=Boeing-Vertol}
