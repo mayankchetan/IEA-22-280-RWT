@@ -2,9 +2,14 @@ from openfast_io.FAST_reader import InputReader_OpenFAST
 from openfast_io.FAST_writer import InputWriter_OpenFAST
 import os
 import copy
+import sys
 import multiprocessing
 
 from utils import *
+
+sys.path.append('/Users/mchetan/Desktop/nrel/projects/a_IEAWindTasks/task47Turbinia/welib/welib/fast')
+from olaf import OLAFParams
+
 
 
 BASE_FOLDER = '../OpenFAST/IEA-22-280-RWT-Monopile'
@@ -12,10 +17,11 @@ BASE_FILE = 'IEA-22-280-RWT-Monopile.fst'
 
 OPENFAST_EXE = '../../openfast-dev-tc/build/glue-codes/openfast/openfast'
 
-MODEL_FOLDER = '_model'
+MODEL_FOLDER = '_model_omp'
 REPORT_FOLDER = '_report'
 RESULTS_FOLDER = '_results'
 
+THREADS = 4  # Number of threads for OpenFAST
 
 RUN_FILE_WRITE      = False  # Set to True to write the OpenFAST input files
 RUN_OPENFAST        = False  # Set to True to run OpenFAST simulations
@@ -23,7 +29,7 @@ RUN_REPORTING       = True  # Set to True to generate reports
 RUN_RESULTS_GEN     = True  # Set to True to process results
 
 
-def set_case_vars(fst_vt, case='v3.1'):
+def set_case_vars(fst_vt, case='v3.1', OLAF = False):
     '''
     Case V3.1 (Axi-symmetric)
     '''
@@ -49,6 +55,37 @@ def set_case_vars(fst_vt, case='v3.1'):
     fst_vt['AeroDyn']['tau1_const'] = 1.1 / (1 - 1.3 * 0.3) * (fst_vt['ElastoDyn']['TipRad'] / 6.0)  # Assuming U0 = 6.0 m/s & a = 0.3
     fst_vt['AeroDyn']['UA_Mod'] = 4  # Use the B-L HGM 4-states UA model
     fst_vt['AeroDyn']['IntegrationMethod'] = 4
+
+    if OLAF:
+        fst_vt['AeroDyn']['Wake_Mod'] = 3
+
+        # For OLAF, use the OLAF settings
+        # fetch the parameters for OLAF
+        dt_fvw, tMin, nNWPanels, nNWPanelsFree, nFWPanels, nFWPanelsFree = OLAFParams(
+            omega_rpm = 3.693242031, 
+            U0 = 6.0, 
+            R = fst_vt['ElastoDyn']['TipRad'],
+            dt_glue_code = fst_vt['Fst']['DT'],
+        )
+
+        # overide time to allow transients
+        if tMin > fst_vt['Fst']['TMax']:
+            fst_vt['Fst']['TMax'] = np.floor(tMin) + 120 #s
+
+        fst_vt['AeroDyn']['OLAF']['DTfvw'] = dt_fvw  # Time step for the far wake
+        fst_vt['AeroDyn']['OLAF']['nNWPanels'] = nNWPanels  
+        fst_vt['AeroDyn']['OLAF']['nNWPanelsFree'] = nNWPanelsFree
+        fst_vt['AeroDyn']['OLAF']['nFWPanels'] = nFWPanels
+        fst_vt['AeroDyn']['OLAF']['nFWPanelsFree'] = nFWPanelsFree
+        fst_vt['AeroDyn']['OLAF']['WakeRegFactor'] = 0.5
+        fst_vt['AeroDyn']['OLAF']['WingRegFactor'] = 0.5
+        fst_vt['AeroDyn']['OLAF']['WrVTk'] = 2
+        fst_vt['AeroDyn']['OLAF']['nVTKBlades'] = 3
+
+    else:
+        # For OpenFAST, use the standard settings
+        fst_vt['AeroDyn']['Wake_Mod'] = 1
+    
 
     # Setting summaries for AeroDyn and BeamDyn
     fst_vt['AeroDyn']['SumPrint'] = 'True'  # Print summary
@@ -126,38 +163,59 @@ def main():
     base_case.FAST_directory = BASE_FOLDER
     base_case.execute()
 
-    # CASE v3.1
-    case_v3_1 = copy.deepcopy(base_case)
-    case_v3_1.fst_vt = set_case_vars(case_v3_1.fst_vt)
+    # Using a single openfast writer
+    of_writer = InputWriter_OpenFAST()
 
-    case_v3_1_writer = InputWriter_OpenFAST()
-    case_v3_1_writer.FAST_namingOut = 'case_v3_1'
-    case_v3_1_writer.FAST_runDirectory = os.path.join(MODEL_FOLDER,'case_v3_1') #Output directory
-    case_v3_1_writer.fst_vt = case_v3_1.fst_vt
+    # CASE v3.1 - BEM
+    case_v3_1_BEM = copy.deepcopy(base_case)
+    case_v3_1_BEM.fst_vt = set_case_vars(case_v3_1_BEM.fst_vt, case='v3.1', OLAF=False)
 
-    # CASE v3.2
-    case_v3_2 = copy.deepcopy(base_case)
-    case_v3_2.fst_vt = set_case_vars(case_v3_2.fst_vt, case='v3.2')
-
-    case_v3_2_writer = InputWriter_OpenFAST()
-    case_v3_2_writer.FAST_namingOut = 'case_v3_2'
-    case_v3_2_writer.FAST_runDirectory = os.path.join(MODEL_FOLDER,'case_v3_2') #Output directory
-    case_v3_2_writer.fst_vt = case_v3_2.fst_vt
-
+    of_writer.FAST_namingOut = 'case_v3_1_BEM'
+    of_writer.FAST_runDirectory = os.path.join(MODEL_FOLDER,'BEM','case_v3_1') #Output directory
+    of_writer.fst_vt = case_v3_1_BEM.fst_vt
+    case_v3_1_BEM_path = os.path.join(of_writer.FAST_runDirectory, of_writer.FAST_namingOut + '.fst')
     if RUN_FILE_WRITE:
-        case_v3_1_writer.execute()
-        case_v3_2_writer.execute()
+        of_writer.execute()
+
+    # CASE v3.1 - OLAF
+    case_v3_1_OLAF = copy.deepcopy(base_case)
+    case_v3_1_OLAF.fst_vt = set_case_vars(case_v3_1_OLAF.fst_vt, case='v3.1', OLAF=True)
+
+    of_writer.FAST_namingOut = 'case_v3_1_OLAF'
+    of_writer.FAST_runDirectory = os.path.join(MODEL_FOLDER,'OLAF','case_v3_1') #Output directory
+    of_writer.fst_vt = case_v3_1_OLAF.fst_vt
+    case_v3_1_OLAF_path = os.path.join(of_writer.FAST_runDirectory, of_writer.FAST_namingOut + '.fst')
+    if RUN_FILE_WRITE:
+        of_writer.execute()
+
+    # CASE v3.2 - BEM
+    case_v3_2_BEM = copy.deepcopy(base_case)
+    case_v3_2_BEM.fst_vt = set_case_vars(case_v3_2_BEM.fst_vt, case='v3.2', OLAF=False)
+
+    of_writer.FAST_namingOut = 'case_v3_2_BEM'
+    of_writer.FAST_runDirectory = os.path.join(MODEL_FOLDER,'BEM','case_v3_2') #Output directory
+    of_writer.fst_vt = case_v3_2_BEM.fst_vt
+    case_v3_2_BEM_path = os.path.join(of_writer.FAST_runDirectory, of_writer.FAST_namingOut + '.fst')
+    if RUN_FILE_WRITE:
+        of_writer.execute()
+
+    # CASE v3.2 - OLAF
+    case_v3_2_OLAF = copy.deepcopy(base_case)
+    case_v3_2_OLAF.fst_vt = set_case_vars(case_v3_2_OLAF.fst_vt, case='v3.2', OLAF=True)
+    
+    of_writer.FAST_namingOut = 'case_v3_2_OLAF'
+    of_writer.FAST_runDirectory = os.path.join(MODEL_FOLDER,'OLAF','case_v3_2') #Output directory
+    of_writer.fst_vt = case_v3_2_OLAF.fst_vt
+    case_v3_2_OLAF_path = os.path.join(of_writer.FAST_runDirectory, of_writer.FAST_namingOut + '.fst')
+    if RUN_FILE_WRITE:
+        of_writer.execute()
 
     if RUN_OPENFAST:
-        # Set outputs for both cases, and run them in parallel
-        case_v3_1_path = os.path.join(case_v3_1_writer.FAST_runDirectory, case_v3_1_writer.FAST_namingOut + '.fst')
-        case_v3_2_path = os.path.join(case_v3_2_writer.FAST_runDirectory, case_v3_2_writer.FAST_namingOut + '.fst')
-        
         # Create a pool with 2 processes for the two cases
-        pool = multiprocessing.Pool(processes=2)
+        pool = multiprocessing.Pool(processes=THREADS)
         
         # Map the function to the case paths
-        pool.map(runOpenFAST_wrapper, [case_v3_1_path, case_v3_2_path])
+        pool.map(runOpenFAST_wrapper, [case_v3_1_BEM_path, case_v3_1_OLAF_path, case_v3_2_BEM_path, case_v3_2_OLAF_path])
         
         # Close the pool
         pool.close()
@@ -165,21 +223,38 @@ def main():
 
     if RUN_RESULTS_GEN:
 
-        out_ext = '.outb'  if base_case.fst_vt['Fst']['OutFileFmt'] == 2 else '.out'
+        results_df_loads = {}
+        results_df_lifting_line = {}
+        of_out = {}
 
-        results_df_loads, results_df_lifting_line, of_out = processResults(
-            REPORT_FOLDER,
+        out_ext = '.outb'  if case_v3_1_BEM.fst_vt['Fst']['OutFileFmt'] == 2 else '.out'
+
+        # Process results for for BEM
+        results_df_loads['BEM'], results_df_lifting_line['BEM'], of_out['BEM'] = processResults(
+            RESULTS_FOLDER,
             fast_output_files = {
-                'v3.1': os.path.join(case_v3_1_writer.FAST_runDirectory, case_v3_1_writer.FAST_namingOut + out_ext),
-                'v3.2': os.path.join(case_v3_2_writer.FAST_runDirectory, case_v3_2_writer.FAST_namingOut + out_ext)
+                'v3.1': os.path.join(case_v3_1_BEM_path[:-4] + out_ext),
+                'v3.2': os.path.join(case_v3_2_BEM_path[:-4] + out_ext),
             },
             nodalR = np.array(base_case.fst_vt['AeroDynBlade']['BlSpn']) + base_case.fst_vt['ElastoDyn']['HubRad'],
-            results_string='initialPass',
+            results_string='initialPass_BEM',
             startTime=120.0  # Start time for processing the data
         )
 
+        # Process results for OLAF
+        results_df_loads['OLAF'], results_df_lifting_line['OLAF'], of_out['OLAF'] = processResults(
+            RESULTS_FOLDER,
+            fast_output_files = {
+                'v3.1': os.path.join(case_v3_1_OLAF_path[:-4] + out_ext),
+                'v3.2': os.path.join(case_v3_2_OLAF_path[:-4] + out_ext),
+            },
+            nodalR = np.array(base_case.fst_vt['AeroDynBlade']['BlSpn']) + base_case.fst_vt['ElastoDyn']['HubRad'],
+            results_string='initialPass_OLAF',
+            startTime=591.0  # Start time for processing the data
+        )
+
     if RUN_REPORTING:
-        reporting(results_df_loads, results_df_lifting_line, of_out, REPORT_FOLDER)
+        reporting(results_df_loads, results_df_lifting_line, of_out, REPORT_FOLDER, vtk=False, vtk_folder='_model_omp')
 
 
 
