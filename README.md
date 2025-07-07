@@ -82,6 +82,7 @@ The authors of the IEA 22 MW RWT hope that the turbine is used widely. Notable s
 *  A Bladed model was developed by [DNV](mailto:renewables.support@dnv.com) and is available as part of the Bladed v4.16 installation. DNV have also written a Python [converter tool](https://dnvgldocs.azureedge.net/BladedManual/4_16/workflow/preProcessingTools/WindIOtoBladed.html) for the WindIO blade definition to Bladed format for the IEA 22 MW RWT.
 * A [QBlade](https://qblade.org) model was developed by researchers at [TU Berlin](https://qblade.org/contact/) and is available in this repository. 
 * An OrcaFlex model of the [v1.0.1](https://github.com/IEAWindTask37/IEA-22-280-RWT/releases/tag/v1.0.1) 22 MW rotor, nacelle, and tower (no foundation) was developed by Orcina and verified against OpenFAST. The report and model are available on the validation [page](https://www.orcina.com/resources/validation/) of the Orcina website. 
+* A [SIMA](https://sima.sintef.no/) model of the IEA 22 MW turbine and tower has been implemented by [SINTEF Ocean](sima@sintef.no) and validated against OpenFAST using both BeamDyn and ElastoDyn. The model and validation report can be downloaded from the [SIMA example website](https://sintef.github.io/sima-examples-site/sima-examples/sima-5.0.html)
 
 
 ## Acknowledgments
